@@ -1,6 +1,7 @@
 from tkinter import Tk, Label, Entry, Button, Toplevel, Listbox, messagebox, ttk
 from user_management import login, add_user, get_all_employees, delete_employee, view_employees
 import sqlite3
+import fingerprint_api
 
 def show_landing_page():
     landing_window = Toplevel()
@@ -124,16 +125,32 @@ def view_employees():
     tree.bind("<Double-1>", on_item_clicked)  # Double click to open fingerprint window
 
 
+def register_fingerprint():
+    # Open device
+    fingerprint_api.open_device()
+    
+    # Capture fingerprint image
+    fingerprint_api.capture_image()
+    
+    # Generate fingerprint feature
+    fingerprint_api.generate_feature()
+    
+    # Close device after operations
+    fingerprint_api.close_device()
+    
+    print("Fingerprint registration process completed.")
+
+def preview_fingerprint():
+    # Placeholder for fingerprint preview functionality
+    print("Preview fingerprint functionality not implemented.")
+
 def open_fingerprint_window(employee_id):
     fingerprint_window = Toplevel()
     fingerprint_window.title(f"Fingerprint Operations for Employee ID {employee_id}")
     
-    # Add your UI components for fingerprint registration and preview here
     Label(fingerprint_window, text="Fingerprint Registration and Preview").pack()
-
-    # Example of a button, add your actual functionality
-    Button(fingerprint_window, text="Register Fingerprint").pack()
-    Button(fingerprint_window, text="Preview Fingerprint").pack()
+    Button(fingerprint_window, text="Register Fingerprint", command=register_fingerprint).pack()
+    Button(fingerprint_window, text="Preview Fingerprint", command=preview_fingerprint).pack()
 
 def attempt_login():
     username = username_entry.get()
